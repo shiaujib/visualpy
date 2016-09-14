@@ -7,6 +7,7 @@ import time
 import struct
 import threading
 import sys
+import numpy as np
 index=0
 dataNum=0
 
@@ -15,10 +16,11 @@ def fileTrans(sendsock,sockflag):
     global dataNum
     while 1:
         #time.sleep(1)
-        if dataNum<300000:
-            conn.send("hello %s\n"%(str(dataNum)))
+        if dataNum<10000000:
+            conn.send("%5s\t%5s\t%5s"%(str(np.random.randint(-10,10)),str(np.random.randint(-10,10)),str(np.random.randint(-10,10))))
+            #conn.send("%5s\t%5s\t%5s,"%(str(np.random.randint(-10,10)),str(np.random.randint(-10,10)),str(np.random.randint(-10,10))))
         dataNum=dataNum+1
-        if sockflag==1 and dataNum>300000:
+        if sockflag==1 and dataNum>100000000:
             sendsock.close()
             conn.close()
             print "Close socket"
@@ -28,7 +30,7 @@ def main():
     fileTrans()
 
 if __name__=="__main__":
-        addr = ('192.168.211.131',8000)
+        addr = ('192.168.211.132',8000)
         bufsize = 1024
         filename = 'sensor1.txt'
         sendsock = socket(AF_INET,SOCK_STREAM)
@@ -37,7 +39,11 @@ if __name__=="__main__":
         print "waiting for client connect"
         conn,addr = sendsock.accept()
         print "server already connect client...->",addr
-        t=threading.Thread(target=fileTrans,args=(sendsock,1,))
-        t.start()
+        try:
+            t=threading.Thread(target=fileTrans,args=(sendsock,1,))
+            t.start()
+        except KeyboardInterrupt:
+            sys.exit()
+             
   #      while(1):
   #          print("live")
