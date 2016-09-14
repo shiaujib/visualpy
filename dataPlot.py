@@ -17,17 +17,17 @@ def sensorplot():
     sen1f = fig.add_subplot(211)
     sen2f = fig.add_subplot(212)
     # some X and Y data
-    x = np.arange(100)
-    y = zero[0:100]
+    x = np.arange(1000)
+    y = zero[0:1000]
     sen1f.set_ylabel('value')
     sen1f.set_xlabel('time')
     sen1f.set_ylim((0,20))
-    sen1f.set_xlim((0,100))
+    sen1f.set_xlim((0,1000))
     sx = np.arange(10000)
     sy = np.random.randn(10000)
     sen2f.set_ylabel('value')
     sen2f.set_xlabel('time')
-    sen2f.set_ylim((-10,10))
+    sen2f.set_ylim((0,20))
     sen2f.set_xlim((0,1000))
     sen1fr, = sen1f.plot(x, y)
     sen2fr, = sen2f.plot(sx,sy)
@@ -43,7 +43,6 @@ def sensorplot():
             #y[-100:] = np.arange(100)
             y[-99:] = result[0:99]
             # set the new data
-            print result[10]
             sen1fr.set_ydata(y)
             fig.canvas.draw()
         except KeyboardInterrupt:
